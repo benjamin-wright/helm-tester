@@ -1,0 +1,15 @@
+{{- define "libchart.configmap.tpl" -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    libchart.io/color: {{ .Values.global.color }}
+data: {}
+{{- end -}}
+
+{{- define "libchart.configmap" -}}
+{{- $top := first . -}}
+{{- $overrides := fromYaml (include (index . 1) $top) | default (dict ) -}}
+{{- $tpl := fromYaml (include "libchart.configmap.tpl" $top) | default (dict ) -}}
+{{- toYaml (merge $overrides $tpl) -}}
+{{- end -}}
