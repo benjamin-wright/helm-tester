@@ -1,5 +1,11 @@
-.PHONY: test
+.PHONY: docker-test test
+
+docker-test:
+	docker build -t tester ./tests
+	docker run \
+		-v $(shell pwd)/library-chart:/var/apps/chart \
+		-e TEST_CHART=/var/apps/chart \
+		tester
 
 test:
-	docker build -t tester ./tests
-	docker run -v $(shell pwd)/library-chart:/var/apps/src/test-chart/charts/library-chart/ tester
+	cd tests && TEST_CHART=$(shell pwd)/library-chart npm run test

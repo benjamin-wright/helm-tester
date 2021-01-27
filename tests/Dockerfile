@@ -16,9 +16,6 @@ WORKDIR /var/apps/src
 COPY package*.json ./
 
 RUN npm install
-RUN helm create test-chart && \
-    rm -rf test-chart/templates && \
-    mkdir -p test-chart/templates
 
 COPY ./ ./
 
